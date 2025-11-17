@@ -1,0 +1,168 @@
+:root {
+    --fonce: #092834;
+    --pale: #E4F1F6;
+}
+
+/* :root {
+    --primary: #1ABC9C;
+    --secondary: #E67E22;
+    --accent-red: #E74C3C;
+    --accent-blue: #3498DB;
+    --accent-yellow: #F1C40F;
+    --background: #2C3E50;
+    --text: #ECF0F1;
+} */
+
+body {
+    background-color: var(--fonce);
+}
+
+.head {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 100px; 
+}
+
+h1 {
+    margin: 0;
+    font-size: 150px;
+    text-align: center;
+    vertical-align: top;
+    color: var(--pale);
+}
+
+.luckiest-guy-regular {
+    font-family: "Luckiest Guy", cursive;
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: 5px;
+}
+
+.toggle {
+  position: relative;
+  margin-bottom: 30px;
+  display: inline-block;
+  width: 100px;     /* largeur */
+  height: 30px;    /* hauteur */
+}
+
+.toggle input {
+  display: none;   /* cache le vrai checkbox */
+}
+
+.toggle span {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: var(--pale);        /* couleur OFF */
+  border-radius: 10px;
+  border: var(--pale);
+  transition: 0.2s;
+}
+
+.toggle span::before {
+  content: "";
+  position: absolute;
+  width: 50px;              /* taille du rond */
+  height: 26px;
+  left: 2px;
+  top: 2px;
+  background: var(--fonce);        /* couleur du rond */
+  border-radius: 9px;
+  transition: 0.2s;
+}
+
+.toggle input:checked + span {
+  background: var(--pale);      /* couleur ON */
+}
+
+.toggle input:checked + span::before {
+  transform: translateX(46px);  /* déplacement du rond */
+}
+
+.vs {
+    color: var(--pale);
+    background-color: var(--fonce);
+    border: var(--fonce);
+    display: block;
+}
+
+#robot {
+    margin-bottom: 30px;
+}
+
+#group {
+    margin-bottom: 30px;
+}
+
+.toggle input:checked ~ .right,
+.toggle input:checked + span ~ .right {
+  font-variation-settings: 'FILL' 1;
+  opacity: 1;
+}
+
+.toggle input:not(:checked) ~ .left {
+  font-variation-settings: 'FILL' 1;
+  opacity: 1;
+}
+
+.selection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px; 
+}
+
+.play {
+    display: block;
+    margin-left: 0;
+    margin-right: 0;
+    background-color: var(--fonce);
+    border: 5px solid var(--pale);
+    border-radius: 60px;
+    color: var(--pale);
+    padding: 60px 240px;
+    cursor: pointer;
+}
+
+button.play:hover {
+    background-color: var(--pale);
+    transform: scale(1.05);
+    color: var(--fonce);
+}
+
+.material-symbols-outlined {
+    font-size: 40px;
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 100,
+    'GRAD' 0,
+    'opsz' 24
+}
+
+button.icon:hover .material-symbols-outlined {
+    font-variation-settings:
+    'FILL' 1,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24
+}
+
+.icon {
+    color: var(--pale);
+    background-color: var(--fonce);
+    border: var(--fonce);
+    display: block;
+    cursor: pointer;
+}
+
+#light {
+    margin-left: auto;
+    margin-right: 10px;
+}
+
+#info {
+    margin-left: 10px;
+    margin-right: auto;  
+}
