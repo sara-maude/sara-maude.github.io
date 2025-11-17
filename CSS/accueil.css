@@ -30,6 +30,7 @@ h1 {
     text-align: center;
     vertical-align: top;
     color: var(--pale);
+    cursor: default;
 }
 
 .luckiest-guy-regular {
@@ -88,23 +89,20 @@ h1 {
     display: block;
 }
 
+.filled {
+    font-variation-settings: 'FILL' 1, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+}
+
+.unfilled {
+    font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+}
+
 #robot {
     margin-bottom: 30px;
 }
 
 #group {
     margin-bottom: 30px;
-}
-
-.toggle input:checked ~ .right,
-.toggle input:checked + span ~ .right {
-  font-variation-settings: 'FILL' 1;
-  opacity: 1;
-}
-
-.toggle input:not(:checked) ~ .left {
-  font-variation-settings: 'FILL' 1;
-  opacity: 1;
 }
 
 .selection {
@@ -134,17 +132,12 @@ button.play:hover {
 
 .material-symbols-outlined {
     font-size: 40px;
-    font-variation-settings:
-    'FILL' 0,
-    'wght' 100,
-    'GRAD' 0,
-    'opsz' 24
 }
 
 button.icon:hover .material-symbols-outlined {
     font-variation-settings:
     'FILL' 1,
-    'wght' 400,
+    'wght' 200,
     'GRAD' 0,
     'opsz' 24
 }
