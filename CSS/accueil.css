@@ -44,7 +44,7 @@ h1 {
   left: 2px;
   top: 2px;
   background: var(--fonce);        /* couleur du rond */
-  border-radius: 9px;
+  border-radius: 8px;
   transition: 0.2s;
 }
 
@@ -94,9 +94,4 @@ button.play:hover {
     background-color: var(--pale);
     transform: scale(1.05);
     color: var(--fonce);
-}
-
-#info {
-    margin-left: 10px;
-    margin-right: auto;  
 }

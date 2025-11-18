@@ -8,6 +8,7 @@ body {
     background-color: var(--fonce);
     height: 100%;
     margin: 0;
+    position:relative;
 }
 
 .luckiest-guy-regular {
@@ -25,6 +26,45 @@ body {
     cursor: pointer;
 }
 
+#close {
+    margin-bottom: 25px;
+}
+
+.toolbar {
+    position:absolute;
+    display: block;
+    top: 40px;
+    right: 15px;
+    gap: 10;
+    border-radius: 25px;
+    padding: 7px;
+}
+
+.toolbar .material-symbols-outlined {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.tool {
+    color: var(--fonce);
+    background-color: var(--pale);
+    border: var(--pale);
+    display: block;
+    cursor: pointer;
+}
+
+#closed {
+    background-color: var(--fonce);
+    color: var(--pale);
+    display: none;
+}
+
+#opened {
+    border: var(--pale);
+    background-color: var(--pale);
+    color: var(--fonce);
+}
+
 .material-symbols-outlined {
     font-size: 40px;
 }
@@ -37,15 +77,10 @@ body {
     font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
 }
 
-button.icon:hover .material-symbols-outlined {
+button.unfilled:hover .material-symbols-outlined {
     font-variation-settings:
     'FILL' 1,
     'wght' 300,
     'GRAD' 0,
     'opsz' 24
-}
-
-#light {
-    margin-left: auto;
-    margin-right: 10px;
 }
