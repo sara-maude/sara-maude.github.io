@@ -1,0 +1,57 @@
+.container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+
+.section {
+    flex: 1;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;  /* centre le contenu */
+    align-items: center;
+    position: relative;       /* nécessaire pour positionner des éléments absolus dans la section */
+}
+
+.center-content {
+    /* ce div reste centré */
+    font-size: 2rem;
+}
+
+#back {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+}
+
+.choix:hover {
+    border: 5px solid var(--pale);
+}
+
+.gamelevel {
+    display:flex;
+}
+
+.level {
+    font-weight: bold;
+}
+
+#refresh {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+}
+
+.piece {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: var(--fonce);
+    border: 5px solid var(--inner);
+    margin-top: 10px;
+    margin-right: 30px;
+}
+
+.line {
+    display: flex;
+}
