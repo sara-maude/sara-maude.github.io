@@ -6,6 +6,7 @@ const couleur = "<div class='piece choix' ";
 const couleurs = ["#FF0000","#FF7300", "#FFF200", "#35D300", "#00B7FF", "#9900FF", "#FE00E5", "#0400FF"];
 
 const element = "<div class='piece'></div>";
+const score = "<div class='score'></div>";
 
 displayGame(8,4,2,3);
 
@@ -30,18 +31,24 @@ avance.addEventListener("click", () => {
 
 function displayGame(rowboard, columnboard, rowcolor, columncolor){
     let boardHTML = "";
+    let scoreHTML = "";
     let paletteHTML = "";
 
     for (let i = 0; i < rowboard; i++) {
         let line = "<div class='line'>";
+        let lineScore = "<div class='line'>";
         for (let j = 0; j < columnboard; j++) {
             line += element;
+            lineScore += score;
         }
         line += "</div>";
+        lineScore += "</div>";
         boardHTML += line;
+        scoreHTML += lineScore;
     }
 
     document.getElementById("board").innerHTML = boardHTML;
+    document.getElementById("scoreBoard").innerHTML = scoreHTML;
 
     for (let i = 0; i < rowcolor; i++) {
         let line = "<div class='line'>";
@@ -55,4 +62,8 @@ function displayGame(rowboard, columnboard, rowcolor, columncolor){
     }
 
     document.getElementById("palette").innerHTML = paletteHTML;
+}
+
+function revealSecretCode() {
+    document.getElementById("hide").style.display = "none";
 }

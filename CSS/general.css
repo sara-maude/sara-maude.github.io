@@ -20,29 +20,26 @@ body {
 
 .icon {
     color: var(--pale);
-    background-color: var(--fonce);
+    background-color: #09283400;
     border: var(--fonce);
     display: block;
     cursor: pointer;
 }
 
-#close {
-    margin-bottom: 25px;
-}
-
 .toolbar {
     position:absolute;
     display: block;
-    top: 40px;
+    border: 3px solid var(--pale);
+    background-color: var(--pale);
+    color: var(--fonce);
+    top: 15px;
     right: 15px;
     gap: 10;
-    border-radius: 25px;
-    padding: 7px;
-}
-
-.toolbar .material-symbols-outlined {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    border-radius: 40px;
+    padding-top: 12px;
+    padding-bottom: 10px;
+    padding-left: 7px;
+    padding-right: 7px;
 }
 
 .tool {
@@ -53,31 +50,55 @@ body {
     cursor: pointer;
 }
 
-#closed {
-    background-color: var(--fonce);
-    color: var(--pale);
-    display: none;
+/* Toolbar ouverte (X) */
+#opened {
+    transform-origin: top;           /* pour l’effet haut-bas */
+    transform: scaleY(1);
+    transition: transform 0.4s ease;
 }
 
-#opened {
-    border: var(--pale);
-    background-color: var(--pale);
-    color: var(--fonce);
+/* Toolbar fermée */
+#opened.hidden {
+    transform: scaleY(0);
+    pointer-events: none;            /* empêche les clics */
 }
+
+/* Bouton + (fermé) */
+#closed {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+/* Quand + est visible */
+#closed.visible {
+    opacity: 1;
+    pointer-events: auto;            /* permet de cliquer */
+    background-color: var(--fonce);
+}
+
 
 .material-symbols-outlined {
     font-size: 40px;
 }
 
 .filled {
-    font-variation-settings: 'FILL' 1, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+    font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 24;
 }
 
 .unfilled {
     font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
 }
 
-button.unfilled:hover .material-symbols-outlined {
+button.icon:hover .material-symbols-outlined {
+    font-variation-settings:
+    'FILL' 1,
+    'wght' 300,
+    'GRAD' 0,
+    'opsz' 24
+}
+
+button.tool:hover .material-symbols-outlined {
     font-variation-settings:
     'FILL' 1,
     'wght' 300,
