@@ -1,14 +1,17 @@
+import { DEBUTANT } from "./constantes.js";
+import GameLogic from "./logiqueJeu.js";
+import {couleurs} from "./utils.js";
+
 document.getElementById("back").addEventListener("click", function() {
     window.location.href = "accueil.html";
 });
 
-const couleur = "<div class='piece choix' ";
-const couleurs = ["#FF0000","#FF7300", "#FFF200", "#35D300", "#00B7FF", "#9900FF", "#FE00E5", "#0400FF"];
-
-const element = "<div class='piece'></div>";
-const score = "<div class='score'></div>";
-
+let essaieActuel = 1;
+let billeActuelle = 0;
+let essaieMax = 8;
+let billeMax = 4;
 displayGame(8,4,2,3);
+playLine(0, 4);
 
 const debutant = document.getElementById("debutant");
 const avance = document.getElementById("avance");
@@ -17,7 +20,12 @@ debutant.addEventListener("click", () => {
     if (debutant.classList.contains("active")){
         debutant.classList.replace("active", "selected");
         avance.classList.replace("selected", "active");
-        displayGame(8,4,2,3);
+        const easyGame = new GameLogic(DEBUTANT);
+        easyGame.display();
+        playLine(0, 4);
+        essaieActuel = 1;
+        essaieMax = 8;
+        billeMax = 4;
     }
 })
 
@@ -26,6 +34,10 @@ avance.addEventListener("click", () => {
         avance.classList.replace("active", "selected");
         debutant.classList.replace("selected", "active");
         displayGame(10,5,2,4);
+        playLine(0, 5);
+        essaieActuel = 1;
+        essaieMax = 10;
+        billeMax = 5;
     }
 })
 
@@ -55,7 +67,7 @@ function displayGame(rowboard, columnboard, rowcolor, columncolor){
         for (let j = 0; j < columncolor; j++) {
             const index = i === 0 ? j : j + columncolor;
             const style = `background-color:${couleurs[index]};`;
-            line += `${couleur} style="${style}"></div>`;
+            line += `${couleur}${index})' style="${style}"></div>`;
         }
         line += "</div>";
         paletteHTML += line;
@@ -66,4 +78,60 @@ function displayGame(rowboard, columnboard, rowcolor, columncolor){
 
 function revealSecretCode() {
     document.getElementById("hide").style.display = "none";
+}
+
+
+function playLine(start, essaie) {
+    const piece = document.getElementsByClassName("piece-board");
+    for (let j = 0; j < essaie; j++) {
+        const index = j + start * essaie;
+        if (piece[index]) {               // <-- protection
+            piece[index].classList.add("inUse");
+        }
+    }
+}
+
+function nextLine(start, essaie) {
+    const piece = document.getElementsByClassName("piece-board");
+    for (let j = 0; j < essaie; j++) {
+        const index = j + start * essaie;
+        if (piece[index]) {               // <-- protection
+            piece[index].classList.remove("inUse");
+        }
+    }
+}
+
+document.getElementById("check").addEventListener("click", () => {
+    if (essaieActuel < essaieMax) {
+        nextLine(essaieActuel - 1, billeMax);
+        playLine(essaieActuel, billeMax);
+        essaieActuel += 1;
+    } else {
+        setCheckEnabled(false);
+    }
+})
+
+document.getElementById("refresh").addEventListener("click", () => {
+    nextLine(essaieActuel - 1, billeMax);
+
+    essaieActuel = 0;
+    playLine(essaieActuel, billeMax);
+    essaieActuel += 1;
+    setCheckEnabled(true);
+});
+
+function setCheckEnabled(enabled) {
+    document.getElementById("check").disabled = !enabled;
+}
+
+function giveColor(index) {
+    // bonne piece du jeux et donner couleur + compteur piece actuelle
+    console.log("couleur click");
+    const position = (essaieActuel - 1)*billeMax + billeActuelle;
+    document.getElementsByClassName("piece-board")[position].style.backgroundColor = couleurs[index];
+    if (billeActuelle < (billeMax - 1)){
+        billeActuelle += 1;
+    } else {
+        billeActuelle = 0;
+    }
 }

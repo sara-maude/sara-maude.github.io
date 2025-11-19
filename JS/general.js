@@ -13,11 +13,6 @@ document.getElementById("open").addEventListener("click", () => {
     opened.classList.remove("hidden");
 });
 
-document.getElementById("open").addEventListener("click", () => {
-    plus.style.display = "none";
-    x.style.display = "block";
-})
-
 document.getElementById("settings").addEventListener("click", function() {
     window.location.href = "reglages.html";
 });

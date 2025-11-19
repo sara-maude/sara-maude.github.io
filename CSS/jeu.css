@@ -7,9 +7,9 @@
 .section {
     flex: 1;
     display: flex;
-    justify-content: center;  /* centre le contenu */
+    justify-content: center;
     align-items: center;
-    position: relative;       /* nécessaire pour positionner des éléments absolus dans la section */
+    position: relative;
 }
 
 .center-content {
@@ -24,6 +24,7 @@
 
 .choix:hover {
     border: 5px solid var(--pale);
+    cursor: pointer;
 }
 
 .gametools {
@@ -52,6 +53,7 @@
 .active:hover {
   background-color: var(--pale);
   color: var(--fonce);
+  cursor: pointer;
 }
 
 .gametools .icon .material-symbols-outlined {
@@ -64,12 +66,16 @@
     width: 35px;
     height: 35px;
     border-radius: 50%;
-    background: var(--fonce);
     border: 5px solid var(--inner);
+    background: var(--fonce);
     margin-top: 5px;
     margin-bottom: 5px;
     margin-right: 15px;
     margin-left: 15px;
+}
+
+.piece.inUse {
+    border: 5px solid var(--pale);
 }
 
 .score {
@@ -92,7 +98,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;    /* pour que le centre soit le vrai centre */
+    width: 100%;
     position: relative;
     height: 0;
 }
@@ -104,6 +110,10 @@
 
 .secretCode {
     background-color: var(--pale);
+    color: var(--fonce);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50px;
     height: 50px;
     width: 280px;
@@ -111,4 +121,10 @@
     top: 25px;
     left: 50%;
     transform: translateX(-50%);
+}
+
+.secretCode span {
+    font-size: large;
+    font-weight: bold;
+    cursor: default;
 }

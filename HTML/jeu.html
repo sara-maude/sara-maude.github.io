@@ -8,8 +8,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=add_2,arrow_back_ios,check,close,info,light_off,lightbulb,refresh,settings,trophy,undo" rel="stylesheet" />
     <link rel="stylesheet" href="../CSS/jeu.css" />
     <link rel="stylesheet" href="../CSS/general.css" />
-    <script src="../JS/jeu.js" defer></script>
-    <script src="../JS/general.js" defer></script>
+    <script type="module" src="../JS/constantes.js" defer></script>
+    <script type="module" src="../JS/jeu.js" defer></script>
+    <script type="module" src="../JS/general.js" defer></script>
 </head>
 <body>
     <div class="container">
@@ -43,8 +44,9 @@
                     </button>
                 </div>
                 <div class = "answer">
-                    <!-- <div class="secretCode" id="reveal">SECRETCODE</div> -->
-                    <div class="secretCode" id="hide"></div>
+                    <div class="secretCode" id="hide">
+                        <span>Code Secret</span>
+                    </div>
                 </div>
             </div>
         </div>
