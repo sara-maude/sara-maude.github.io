@@ -1,7 +1,10 @@
-import "./constantes.js";
-import { PIECE, ROW, SCORE } from "./constantes.js";
+import { PIECE, ROW, SCORE, COULEURS, PALETTE, PIECES, CHECK, UNDO, REFRESH, RESULTS } from "./constantes.js";
 class GameLogic {
     constructor(difficulte) {
+        this.currentTry = 0;
+        this.currentChoice = 0;
+        this.secretCode = [];
+        this.maybeCode = [];
         if (difficulte) {
             this.maxTries = 8;
             this.maxChoices = 4;
@@ -13,15 +16,40 @@ class GameLogic {
         }
     }
 
+    createCode() {
+        this.secretCode = [];
+        for (let i = 0; i < this.maxChoices; i++){
+            const randomIndex = Math.floor(Math.random() * ROW * this.colorColumn);
+            this.secretCode[i] = randomIndex;
+        }
+        console.log(this.secretCode); 
+    }
+
+    changeLevel(level) {
+        if(level){
+            this.maxTries = 8;
+            this.maxChoices = 4;
+            this.colorColumn = 3;
+        } else {
+            this.maxTries = 10;
+            this.maxChoices = 5;
+            this.colorColumn = 4;
+        }
+    }
+
     display() {
+        this.displayBoard();
+        this.displayPalette();
+    }
+
+    displayBoard() {
         let boardHTML = "";
         let scoreHTML = "";
-        let paletteHTML = "";
     
-        for (let i = 0; i < this.maxChoices; i++) {
+        for (let i = 0; i < this.maxTries; i++) {
             let line = "<div class='line'>";
             let lineScore = "<div class='line'>";
-            for (let j = 0; j < this.maxTries; j++) {
+            for (let j = 0; j < this.maxChoices; j++) {
                 line += PIECE;
                 lineScore += SCORE;
             }
@@ -34,12 +62,17 @@ class GameLogic {
         document.getElementById("board").innerHTML = boardHTML;
         document.getElementById("scoreBoard").innerHTML = scoreHTML;
     
+    }
+
+    displayPalette() {
+        let paletteHTML = "";
+
         for (let i = 0; i < ROW; i++) {
             let line = "<div class='line'>";
             for (let j = 0; j < this.colorColumn; j++) {
                 const index = i === 0 ? j : j + this.colorColumn;
                 const style = `background-color:${COULEURS[index]};`;
-                line += `${PALETTE}${index})' style="${style}"></div>`;
+                line += `${PALETTE} style="${style}"></div>`;
             }
             line += "</div>";
             paletteHTML += line;
@@ -47,6 +80,130 @@ class GameLogic {
     
         document.getElementById("palette").innerHTML = paletteHTML;
     }
+
+    start() {
+        this.currentChoice = 0;
+        this.currentTry = 0;
+        for (let i = 0; i < PIECES.length; i++) {
+            PIECES[i].style.backgroundColor = "var(--fonce)";
+        }
+        this.playLine();
+        CHECK.classList.add("disabled");
+        UNDO.classList.add("disabled");
+        REFRESH.classList.add("disabled");
+        this.createCode();
+    }
+
+    playLine() {
+        for (let j = 0; j < this.maxChoices; j++) {
+            const index = j + this.currentTry * this.maxChoices;
+            if (PIECES[index]) {
+                PIECES[index].classList.add("inUse");
+            }
+            if (PIECES[index - this.maxChoices]) {               // <-- protection
+                PIECES[index - this.maxChoices].classList.remove("inUse");
+            }
+        }
+        this.currentTry += 1;
+    }
+
+    giveColor(index) {
+        // bonne piece du jeux et donner couleur + compteur piece actuelle
+        this.maybeCode[this.currentChoice] = index;
+        console.log(this.maybeCode);
+        if (this.currentChoice === 0){
+            UNDO.classList.remove("disabled");
+            if (this.currentTry === 1) {
+                REFRESH.classList.remove("disabled");
+            }
+        }
+        console.log("couleur click");
+        const position = (this.currentTry - 1) * this.maxChoices + this.currentChoice;
+        PIECES[position].style.backgroundColor = COULEURS[index];
+        if (this.currentChoice < (this.maxChoices - 1)){
+            this.currentChoice += 1;
+        } else {
+            CHECK.classList.remove("disabled");
+        }
+    }
+
+    refresh() {
+        if (this.currentTry !== 0 && this.currentChoice !== 0){
+            this.displayBoard();
+            this.start();
+        }
+        
+    }
+
+    undo() {
+        if (this.currentChoice !== 0) {
+            const position = (this.currentTry - 1) * this.maxChoices + this.currentChoice;
+            PIECES[position - 1].style.backgroundColor = "var(--fonce)";
+            this.currentChoice -= 1;
+            if (this.currentChoice === 0) {
+                CHECK.classList.add("disabled");
+                UNDO.classList.add("disabled");
+                if (this.currentTry === 1) {
+                    REFRESH.classList.add("disabled");
+                }
+            }
+        }
+    }
+
+    check() {
+        if (this.currentChoice === this.maxChoices - 1){
+            // if (this.compareCodes()){
+            //     console.log("HOORAY!!");
+            // }
+            if (this.currentTry < this.maxTries) {
+                this.evaluateMaybeCode();
+                this.playLine();
+                this.currentChoice = 0;
+                CHECK.classList.add("disabled");
+                UNDO.classList.add("disabled");
+            }
+        }
+    }
+
+    compareCodes() {
+        for (let i = 0; i < this.maxChoices; i++) {
+            if (this.maybeCode[i] !== this.secretCode[i]) return false;
+        }
+        return true;
+    }
+
+    evaluateMaybeCode() {
+        let codeCopy  = [...this.secretCode];   // copie du code secret
+        let guessCopy = [...this.maybeCode];    // copie du code proposé
+        let results = [];                        // tableau pour stocker les résultats
+
+        // 1️⃣ Bien placés (black)
+        for (let i = 0; i < this.maxChoices; i++) {
+            if (guessCopy[i] === codeCopy[i]) {
+                results.push(RESULTS[1]);  // bien placé
+                codeCopy[i] = guessCopy[i] = null; // marquer comme utilisé
+            }
+        }
+
+        // 2️⃣ Mal placés (white)
+        for (let i = 0; i < this.maxChoices; i++) {
+            if (guessCopy[i] != null) {
+                let index = codeCopy.indexOf(guessCopy[i]);
+                if (index !== -1) {
+                    results.push(RESULTS[0]); // mal placé
+                    codeCopy[index] = null;   // marquer comme utilisé
+                }
+            }
+        }
+
+        // 3️⃣ Affichage dans l’ordre
+        for (let i = 0; i < results.length; i++) {
+            const position = (this.currentTry - 1) * this.maxChoices + i;
+            document.getElementsByClassName("score")[position].style.backgroundColor = results[i];
+        }
+    }
+
+
 
 }
 

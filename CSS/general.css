@@ -50,6 +50,11 @@ body {
     cursor: pointer;
 }
 
+.disabled {
+    color: var(--inner);
+    cursor: default;
+}
+
 /* Toolbar ouverte (X) */
 #opened {
     transform-origin: top;           /* pour l’effet haut-bas */
@@ -102,6 +107,14 @@ button.tool:hover .material-symbols-outlined {
     font-variation-settings:
     'FILL' 1,
     'wght' 300,
+    'GRAD' 0,
+    'opsz' 24
+}
+
+button.disabled:hover .material-symbols-outlined {
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 200,
     'GRAD' 0,
     'opsz' 24
 }

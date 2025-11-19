@@ -1,5 +1,3 @@
-// utils.js
-
 export const COULEURS = [
     "#FF0000",
     "#FF7300",
@@ -8,17 +6,26 @@ export const COULEURS = [
     "#00B7FF",
     "#9900FF",
     "#FE00E5",
-    "#0400FF"
+    "#0400FF",
+    "#E4F1F6",
+    "#092834"
 ];
 
-export const DEBUTANT = true;
-export const AVANCE = false;
+export const RESULTS = [
+    "#FFFFFF",
+    "#000000"
+]
+
 export const ROW = 2;
-export const PALETTE = "<div class='piece choix' onclick='giveColor(";
+export const PALETTE = "<div class='piece choix'";
 
 export const PIECE = "<div class='piece piece-board'></div>";
 export const SCORE = "<div class='score'></div>";
 
+export const PIECES = document.getElementsByClassName("piece-board");
+export const CHECK = document.getElementById("check");
+export const UNDO = document.getElementById("undo");
+export const REFRESH = document.getElementById("refresh");
 // Tu peux aussi exporter des fonctions utilitaires
 export function randomInt(max) {
     return Math.floor(Math.random() * max);
