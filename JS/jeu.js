@@ -34,6 +34,7 @@ debutant.addEventListener("click", () => {
         avance.classList.replace("selected", "active");
         newGame.changeLevel(getLevel());
         newGame.display();
+        listenerPalette();
         newGame.start();
     }
 })
@@ -45,6 +46,7 @@ avance.addEventListener("click", () => {
         debutant.classList.replace("selected", "active");
         newGame.changeLevel(getLevel());
         newGame.display();
+        listenerPalette();
         newGame.start();
     }
 })
@@ -60,6 +62,13 @@ document.getElementById("refresh").addEventListener("click", () => {
 document.getElementById("undo").addEventListener("click", () => {
     newGame.undo();
 });
+
+function listenerPalette() {
+    const piecePalette = document.querySelectorAll(".piece.choix");
+    piecePalette.forEach((p, index) => {
+        p.addEventListener("click", () => newGame.giveColor(index));
+    });
+}
 
 const piecePalette = document.querySelectorAll(".piece.choix");
 piecePalette.forEach((p, index) => {

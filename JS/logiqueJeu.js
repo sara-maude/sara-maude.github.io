@@ -1,11 +1,13 @@
-import { PIECE, ROW, SCORE, COULEURS, PALETTE, PIECES, CHECK, UNDO, REFRESH, RESULTS } from "./constantes.js";
+import { PIECE, ROW, SCORE, COULEURS, PALETTE, PIECES, CHECK, UNDO, REFRESH, RESULTS, ANSWER } from "./constantes.js";
 class GameLogic {
-    constructor(difficulte) {
+    constructor(difficulty) {
         this.currentTry = 0;
         this.currentChoice = 0;
         this.secretCode = [];
         this.maybeCode = [];
-        if (difficulte) {
+        this.stillPlaying = true;
+
+        if (difficulty) {
             this.maxTries = 8;
             this.maxChoices = 4;
             this.colorColumn = 3;
@@ -43,6 +45,8 @@ class GameLogic {
     }
 
     displayBoard() {
+        this.stillPlaying = true;
+        this.hideAnswer();
         let boardHTML = "";
         let scoreHTML = "";
     
@@ -64,6 +68,7 @@ class GameLogic {
     
     }
 
+    
     displayPalette() {
         let paletteHTML = "";
 
@@ -97,7 +102,7 @@ class GameLogic {
     playLine() {
         for (let j = 0; j < this.maxChoices; j++) {
             const index = j + this.currentTry * this.maxChoices;
-            if (PIECES[index]) {
+            if (PIECES[index] && this.stillPlaying) {
                 PIECES[index].classList.add("inUse");
             }
             if (PIECES[index - this.maxChoices]) {               // <-- protection
@@ -105,13 +110,13 @@ class GameLogic {
             }
         }
         this.currentTry += 1;
-        REFRESH.classList.remove("disabled");
         console.log("abbled");
     }
 
     giveColor(index) {
+        REFRESH.classList.remove("disabled");
         // bonne piece du jeux et donner couleur + compteur piece actuelle
-            if (this.currentChoice < this.maxChoices){
+        if (this.currentChoice < this.maxChoices && this.stillPlaying){
             this.maybeCode[this.currentChoice] = index;
             console.log(this.maybeCode);
             if (this.currentChoice === 0){
@@ -141,9 +146,6 @@ class GameLogic {
             if (this.currentChoice === 0) {
                 CHECK.classList.add("disabled");
                 UNDO.classList.add("disabled");
-                // if (this.currentTry === 1) {
-                //     REFRESH.classList.add("disabled");
-                // }
             }
         }
     }
@@ -151,9 +153,9 @@ class GameLogic {
     check() {
         console.log("check");
         if (this.currentChoice === this.maxChoices){
-            if (this.compareCodes()){
-                console.log("HOORAY!!");
-
+            if (this.compareCodes() || this.currentTry == this.maxTries){
+                this.showAnswer();
+                this.stillPlaying = false;
             }
             if (this.currentTry <= this.maxTries) {
                 console.log("on devrait check");
@@ -204,7 +206,19 @@ class GameLogic {
         }
     }
 
+    showAnswer() {
+        let answer = "";
+        for (let i = 0; i < this.maxChoices; i++) {
+            const index = this.secretCode[i];
+            const style = `background-color:${COULEURS[index]};`;
+            answer += `${ANSWER} style="${style}"></div>`;
+        }
+        document.getElementById("messageCode").innerHTML = answer;
+    }
 
+    hideAnswer() {
+        document.getElementById("messageCode").innerHTML = "Code Secret";
+    }
 
 }
 

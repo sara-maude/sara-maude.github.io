@@ -22,12 +22,9 @@ export const PALETTE = "<div class='piece choix'";
 
 export const PIECE = "<div class='piece piece-board'></div>";
 export const SCORE = "<div class='score'></div>";
+export const ANSWER = "<div class='piece-code'";
 
 export const PIECES = document.getElementsByClassName("piece-board");
 export const CHECK = document.getElementById("check");
 export const UNDO = document.getElementById("undo");
 export const REFRESH = document.getElementById("refresh");
-// Tu peux aussi exporter des fonctions utilitaires
-export function randomInt(max) {
-    return Math.floor(Math.random() * max);
-}

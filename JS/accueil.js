@@ -26,6 +26,6 @@ checkbox.addEventListener("change", () => {
         friend.classList.add("unfilled");
     }
 
-    localStorage.setItem("gameMode", mode);
+    localStorage.setItem("versus", mode);
 });
 
