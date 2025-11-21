@@ -87,10 +87,10 @@ class GameLogic {
         for (let i = 0; i < PIECES.length; i++) {
             PIECES[i].style.backgroundColor = "var(--fonce)";
         }
-        this.playLine();
         CHECK.classList.add("disabled");
         UNDO.classList.add("disabled");
         REFRESH.classList.add("disabled");
+        this.playLine();
         this.createCode();
     }
 
@@ -105,34 +105,32 @@ class GameLogic {
             }
         }
         this.currentTry += 1;
+        REFRESH.classList.remove("disabled");
+        console.log("abbled");
     }
 
     giveColor(index) {
         // bonne piece du jeux et donner couleur + compteur piece actuelle
-        this.maybeCode[this.currentChoice] = index;
-        console.log(this.maybeCode);
-        if (this.currentChoice === 0){
-            UNDO.classList.remove("disabled");
-            if (this.currentTry === 1) {
-                REFRESH.classList.remove("disabled");
+            if (this.currentChoice < this.maxChoices){
+            this.maybeCode[this.currentChoice] = index;
+            console.log(this.maybeCode);
+            if (this.currentChoice === 0){
+                UNDO.classList.remove("disabled");
             }
-        }
-        console.log("couleur click");
-        const position = (this.currentTry - 1) * this.maxChoices + this.currentChoice;
-        PIECES[position].style.backgroundColor = COULEURS[index];
-        if (this.currentChoice < (this.maxChoices - 1)){
+            console.log("couleur click");
+            const position = (this.currentTry - 1) * this.maxChoices + this.currentChoice;
+            PIECES[position].style.backgroundColor = COULEURS[index];
             this.currentChoice += 1;
-        } else {
-            CHECK.classList.remove("disabled");
+            if (this.currentChoice === (this.maxChoices)){
+                CHECK.classList.remove("disabled");
+            }
         }
     }
 
     refresh() {
-        if (this.currentTry !== 0 && this.currentChoice !== 0){
-            this.displayBoard();
-            this.start();
-        }
-        
+        console.log("refresh");
+        this.displayBoard();
+        this.start();
     }
 
     undo() {
@@ -143,19 +141,22 @@ class GameLogic {
             if (this.currentChoice === 0) {
                 CHECK.classList.add("disabled");
                 UNDO.classList.add("disabled");
-                if (this.currentTry === 1) {
-                    REFRESH.classList.add("disabled");
-                }
+                // if (this.currentTry === 1) {
+                //     REFRESH.classList.add("disabled");
+                // }
             }
         }
     }
 
     check() {
-        if (this.currentChoice === this.maxChoices - 1){
-            // if (this.compareCodes()){
-            //     console.log("HOORAY!!");
-            // }
-            if (this.currentTry < this.maxTries) {
+        console.log("check");
+        if (this.currentChoice === this.maxChoices){
+            if (this.compareCodes()){
+                console.log("HOORAY!!");
+
+            }
+            if (this.currentTry <= this.maxTries) {
+                console.log("on devrait check");
                 this.evaluateMaybeCode();
                 this.playLine();
                 this.currentChoice = 0;

@@ -7,8 +7,9 @@ export const COULEURS = [
     "#9900FF",
     "#FE00E5",
     "#0400FF",
-    "#E4F1F6",
-    "#092834"
+    "#CCC3BA",
+    "#092834",
+    "#3A4F56"
 ];
 
 export const RESULTS = [

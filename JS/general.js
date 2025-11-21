@@ -31,16 +31,20 @@ const lightBtn = document.getElementById("light");
 const icon = lightBtn ? lightBtn.querySelector("span") : null;
 
 const darkColor  = "#092834";
-const lightColor = "#E4F1F6";
+const lightColor = "#CCC3BA";
+const innerLight = "#6B7677";
+const innerDark = "#3A4F56";
 
 function applyLightMode(on) {
     if (on) {
         root.style.setProperty("--fonce", lightColor);
         root.style.setProperty("--pale", darkColor);
+        root.style.setProperty("--inner", innerLight);
         if (icon) icon.textContent = "lightbulb";
     } else {
         root.style.setProperty("--fonce", darkColor);
         root.style.setProperty("--pale", lightColor);
+        root.style.setProperty("--inner", innerDark);
         if (icon) icon.textContent = "light_off";
     }
 }

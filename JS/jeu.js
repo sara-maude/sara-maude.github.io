@@ -1,5 +1,4 @@
 import GameLogic from "./logiqueJeu.js";
-import {COULEURS} from "./constantes.js";
 
 const debutant = document.getElementById("debutant");
 const avance = document.getElementById("avance");
@@ -62,7 +61,7 @@ document.getElementById("undo").addEventListener("click", () => {
     newGame.undo();
 });
 
-const palettePieces = document.querySelectorAll(".piece.choix");
-palettePieces.forEach((p, index) => {
+const piecePalette = document.querySelectorAll(".piece.choix");
+piecePalette.forEach((p, index) => {
     p.addEventListener("click", () => newGame.giveColor(index));
 });
