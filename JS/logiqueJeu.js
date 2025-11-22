@@ -1,11 +1,12 @@
-import { PIECE, ROW, SCORE, COULEURS, PALETTE, PIECES, CHECK, UNDO, REFRESH, RESULTS, ANSWER } from "./constantes.js";
+import { PIECE, ROW, SCORE, COULEURS, PALETTE, PIECES, CHECK, UNDO, REFRESH, RESULTS, ANSWER, PIECECODE } from "./constantes.js";
 class GameLogic {
-    constructor(difficulty) {
+    constructor(difficulty, mode) {
+        this.mode = mode;
         this.currentTry = 0;
         this.currentChoice = 0;
-        this.secretCode = [];
+        this.secretCode = [9, 9, 9, 9, 9];
         this.maybeCode = [];
-        this.stillPlaying = true;
+        this.stillPlaying = false;
 
         if (difficulty) {
             this.maxTries = 8;
@@ -24,7 +25,11 @@ class GameLogic {
             const randomIndex = Math.floor(Math.random() * ROW * this.colorColumn);
             this.secretCode[i] = randomIndex;
         }
-        console.log(this.secretCode); 
+        console.log(this.secretCode);
+    }
+
+    loadCode(index) {
+        this.secretCode
     }
 
     changeLevel(level) {
@@ -42,10 +47,12 @@ class GameLogic {
     display() {
         this.displayBoard();
         this.displayPalette();
+        CHECK.classList.add("disabled");
+        UNDO.classList.add("disabled");
+        REFRESH.classList.add("disabled");
     }
 
     displayBoard() {
-        this.stillPlaying = true;
         this.hideAnswer();
         let boardHTML = "";
         let scoreHTML = "";
@@ -87,16 +94,16 @@ class GameLogic {
     }
 
     start() {
+        this.stillPlaying = true;
         this.currentChoice = 0;
         this.currentTry = 0;
         for (let i = 0; i < PIECES.length; i++) {
             PIECES[i].style.backgroundColor = "var(--fonce)";
         }
-        CHECK.classList.add("disabled");
-        UNDO.classList.add("disabled");
-        REFRESH.classList.add("disabled");
         this.playLine();
-        this.createCode();
+        if (this.mode) {
+            this.createCode();
+        }
     }
 
     playLine() {
@@ -114,17 +121,29 @@ class GameLogic {
     }
 
     giveColor(index) {
-        REFRESH.classList.remove("disabled");
-        // bonne piece du jeux et donner couleur + compteur piece actuelle
-        if (this.currentChoice < this.maxChoices && this.stillPlaying){
-            this.maybeCode[this.currentChoice] = index;
-            console.log(this.maybeCode);
+        if (this.stillPlaying) {
+            REFRESH.classList.remove("disabled");
+            if (this.currentChoice < this.maxChoices){
+                this.maybeCode[this.currentChoice] = index;
+                console.log(this.maybeCode);
+                if (this.currentChoice === 0){
+                    UNDO.classList.remove("disabled");
+                }
+                console.log("couleur click");
+                const position = (this.currentTry - 1) * this.maxChoices + this.currentChoice;
+                PIECES[position].style.backgroundColor = COULEURS[index];
+                this.currentChoice += 1;
+                if (this.currentChoice === (this.maxChoices)){
+                    CHECK.classList.remove("disabled");
+                }
+            }
+        } else if (this.currentTry === 0 && this.currentChoice < this.maxChoices) {
             if (this.currentChoice === 0){
                 UNDO.classList.remove("disabled");
             }
-            console.log("couleur click");
-            const position = (this.currentTry - 1) * this.maxChoices + this.currentChoice;
-            PIECES[position].style.backgroundColor = COULEURS[index];
+            const position = this.currentChoice;
+            PIECECODE[position].style.backgroundColor = COULEURS[index];
+            this.secretCode[position] = index;
             this.currentChoice += 1;
             if (this.currentChoice === (this.maxChoices)){
                 CHECK.classList.remove("disabled");
@@ -139,20 +158,29 @@ class GameLogic {
     }
 
     undo() {
-        if (this.currentChoice !== 0) {
-            const position = (this.currentTry - 1) * this.maxChoices + this.currentChoice;
-            PIECES[position - 1].style.backgroundColor = "var(--fonce)";
-            this.currentChoice -= 1;
-            if (this.currentChoice === 0) {
-                CHECK.classList.add("disabled");
-                UNDO.classList.add("disabled");
+        if (this.currentChoice !== 0) { 
+            if (this.stillPlaying) {
+                const position = (this.currentTry - 1) * this.maxChoices + this.currentChoice;
+                PIECES[position - 1].style.backgroundColor = "var(--fonce)";
+                this.currentChoice -= 1;
+                if (this.currentChoice === 0) {
+                    CHECK.classList.add("disabled");
+                    UNDO.classList.add("disabled");
+                }
+            } else {
+                const position = this.currentChoice;
+                PIECECODE[position - 1].style.backgroundColor = "var(--fonce)";
+                this.currentChoice -= 1;
+                if (this.currentChoice === 0) {
+                    UNDO.classList.add("disabled");
+                }
             }
         }
     }
 
     check() {
         console.log("check");
-        if (this.currentChoice === this.maxChoices){
+        if (this.currentChoice === this.maxChoices && this.stillPlaying){
             if (this.compareCodes() || this.currentTry == this.maxTries){
                 this.showAnswer();
                 this.stillPlaying = false;
@@ -165,6 +193,10 @@ class GameLogic {
                 CHECK.classList.add("disabled");
                 UNDO.classList.add("disabled");
             }
+        } else if (!this.stillPlaying && this.currentChoice === this.maxChoices){
+            this.start();
+            this.hideAnswer();
+            this.currentChoice = 0;
         }
     }
 
@@ -214,10 +246,20 @@ class GameLogic {
             answer += `${ANSWER} style="${style}"></div>`;
         }
         document.getElementById("messageCode").innerHTML = answer;
+        document.getElementById("palette").style.display = "none";
+    }
+
+    secretBox() {
+        let answer = "";
+        for (let i = 0; i < this.maxChoices; i++) {
+            answer += `${ANSWER}></div>`;
+        }
+        document.getElementById("messageCode").innerHTML = answer;
     }
 
     hideAnswer() {
         document.getElementById("messageCode").innerHTML = "Code Secret";
+        document.getElementById("palette").style.display = "block";
     }
 
 }

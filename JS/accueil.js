@@ -6,24 +6,28 @@ const robot  = document.querySelector("#robot");
 const friend = document.querySelector("#group");
 const checkbox = document.querySelector("#toggle");
 
+const vsBot = localStorage.getItem("versus") === "bot";
+if (vsBot) {
+    robot.classList.replace("unfilled", "filled");
+    friend.classList.replace("filled", "unfilled");
+} else {
+    friend.classList.replace("unfilled", "filled");
+    robot.classList.replace("filled", "unfilled");
+    document.getElementById("toggle").checked = true;
+}
+
 checkbox.addEventListener("change", () => {
     const robotFilled = robot.classList.contains("filled");
     let mode;
 
     if (robotFilled) {
         mode = "ami";
-        robot.classList.remove("filled");
-        robot.classList.add("unfilled");
-
-        friend.classList.remove("unfilled");
-        friend.classList.add("filled");
+        friend.classList.replace("unfilled", "filled");
+        robot.classList.replace("filled", "unfilled");
     } else {
         mode = "bot";
-        robot.classList.remove("unfilled");
-        robot.classList.add("filled");
-
-        friend.classList.remove("filled");
-        friend.classList.add("unfilled");
+        robot.classList.replace("unfilled", "filled");
+        friend.classList.replace("filled", "unfilled");
     }
 
     localStorage.setItem("versus", mode);
