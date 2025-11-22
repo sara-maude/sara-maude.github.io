@@ -143,6 +143,18 @@
     margin-left: 9px;
 }
 
+#bravo {
+    display: grid;
+    gap: 5px;
+    position: absolute;
+    left: 180px;
+    bottom: 90px;
+    background-color: var(--pale);
+    color: var(--fonce);
+    border: 20px solid var(--pale);
+    border-radius: 25px;
+}
+
 /* #sendCode {
     background-color: var(--pale);
     color: var(--fonce);

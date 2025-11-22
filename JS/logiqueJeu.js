@@ -125,11 +125,9 @@ class GameLogic {
             REFRESH.classList.remove("disabled");
             if (this.currentChoice < this.maxChoices){
                 this.maybeCode[this.currentChoice] = index;
-                console.log(this.maybeCode);
                 if (this.currentChoice === 0){
                     UNDO.classList.remove("disabled");
                 }
-                console.log("couleur click");
                 const position = (this.currentTry - 1) * this.maxChoices + this.currentChoice;
                 PIECES[position].style.backgroundColor = COULEURS[index];
                 this.currentChoice += 1;
@@ -152,7 +150,6 @@ class GameLogic {
     }
 
     refresh() {
-        console.log("refresh");
         this.displayBoard();
         this.start();
     }
@@ -179,14 +176,12 @@ class GameLogic {
     }
 
     check() {
-        console.log("check");
         if (this.currentChoice === this.maxChoices && this.stillPlaying){
             if (this.compareCodes() || this.currentTry == this.maxTries){
                 this.showAnswer();
                 this.stillPlaying = false;
             }
             if (this.currentTry <= this.maxTries) {
-                console.log("on devrait check");
                 this.evaluateMaybeCode();
                 this.playLine();
                 this.currentChoice = 0;
