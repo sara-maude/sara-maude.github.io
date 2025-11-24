@@ -14,15 +14,15 @@ document.getElementById("open").addEventListener("click", () => {
 });
 
 document.getElementById("settings").addEventListener("click", function() {
-    window.location.href = "reglages.html";
+    window.location.href = "HTML/reglages.html";
 });
 
 document.getElementById("info").addEventListener("click", function() {
-    window.location.href = "tutoriel.html";
+    window.location.href = "HTML/tutoriel.html";
 });
 
 document.getElementById("trophy").addEventListener("click", function() {
-    window.location.href = "historique.html";
+    window.location.href = "HTML/historique.html";
 });
 
 const root = document.documentElement;
