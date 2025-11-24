@@ -1,5 +1,5 @@
 document.getElementById("play").addEventListener("click", function() {
-    window.location.href = "jeu.html";
+    window.location.href = "HTML/jeu.html";
 });
 
 const robot  = document.querySelector("#robot");
